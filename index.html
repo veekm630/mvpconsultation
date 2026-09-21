@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MVP Consultation — Pharmacy Startup Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --cream: #FBF9F4;      /* page background, off-white */
+    --cream-deep: #F3F0E8; /* deeper band */
+    --navy: #0F2140;       /* dark panels */
+    --navy-2: #1A3157;     /* raised surfaces on navy */
+    --ink: #1B2C4A;        /* navy body text on light */
+    --ink-soft: #4E5F7E;   /* secondary text on light */
+    --mist: #C7D0DF;       /* secondary text on navy */
+    --gold: #B08D3F;       /* brass accent */
+    --gold-bright: #C9A557;
+    --line: #E2DDD1;       /* hairlines on light */
+    --line-navy: #2B4269;  /* hairlines on navy */
+    --serif: "Instrument Serif", Georgia, serif;
+    --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 26px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--gold-bright); outline-offset: 3px;
+  }
+
+  /* ============ HERO PANEL (navy) ============ */
+  .panel { background: var(--navy); color: #F5F2EA; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 26px 26px 0; max-width: 1080px; margin: 0 auto; }
+  .brand { font-family: var(--serif); font-size: 1.45rem; color: #F5F2EA; text-decoration: none; letter-spacing: 0.02em; }
+  .brand i { color: var(--gold-bright); font-style: normal; }
+  .topnav { display: flex; gap: 30px; }
+  .topnav a { color: var(--mist); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+  .topnav a:hover { color: #fff; }
+  @media (max-width: 640px) { .topnav { display: none; } }
+
+  .hero { padding: 110px 0 130px; position: relative; overflow: hidden; }
+  .hero-kicker {
+    font-family: var(--serif); font-style: italic; font-size: 1.25rem;
+    color: var(--gold-bright); margin: 0 0 18px;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.9rem, 7vw, 5.2rem); line-height: 1.04;
+    letter-spacing: 0.005em; margin: 0 0 26px; max-width: 14ch;
+  }
+  .hero p.sub { color: var(--mist); font-size: 1.15rem; max-width: 50ch; margin: 0 0 40px; }
+  .btn {
+    display: inline-block; font-family: var(--sans); font-weight: 600; font-size: 1rem;
+    background: var(--gold); color: #14213A; text-decoration: none;
+    padding: 15px 30px; border-radius: 999px; border: 0; cursor: pointer;
+    transition: background .25s ease;
+  }
+  .btn:hover { background: var(--gold-bright); }
+  .hero-links { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+  .quiet-link { color: var(--mist); text-decoration: underline; text-underline-offset: 4px; font-size: 0.98rem; }
+  .quiet-link:hover { color: #fff; }
+  /* mortar-line motif: three thin rules descending, like a ledger */
+  .hero::after {
+    content: ""; position: absolute; right: -8%; top: 0; bottom: 0; width: 42%;
+    background:
+      linear-gradient(var(--line-navy), var(--line-navy)) no-repeat 0 0 / 1px 100%,
+      linear-gradient(var(--line-navy), var(--line-navy)) no-repeat 50% 0 / 1px 100%,
+      linear-gradient(var(--line-navy), var(--line-navy)) no-repeat 100% 0 / 1px 100%;
+    pointer-events: none;
+  }
+  @media (max-width: 760px) { .hero { padding: 80px 0 90px; } .hero::after { display: none; } }
+
+  /* ============ ROADMAP ============ */
+  section { padding: 96px 0; }
+  .section-head { max-width: 60ch; margin-bottom: 60px; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4vw, 2.9rem); line-height: 1.12; margin: 0 0 16px; }
+  .section-head p { color: var(--ink-soft); margin: 0; font-size: 1.05rem; }
+
+  .road { position: relative; margin-left: 8px; }
+  .road::before {
+    content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 1px;
+    background: var(--line);
+  }
+  .step { position: relative; padding: 0 0 46px 54px; }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: -5px; top: 8px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--cream);
+  }
+  .step-num {
+    font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--gold);
+    display: block; margin-bottom: 2px;
+  }
+  .step h3 { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; margin: 0 0 8px; }
+  .step p { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+  @media (min-width: 860px) {
+    .road { margin-left: 220px; }
+    .step-num { position: absolute; left: -180px; top: 4px; font-size: 1.35rem; }
+  }
+
+  /* ============ ABOUT ============ */
+  .band { background: var(--cream-deep); }
+  .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 70px; align-items: center; }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .about-grid .copy p { margin: 0 0 18px; max-width: 60ch; }
+  .pull {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.3; color: var(--ink);
+    border-left: 3px solid var(--gold); padding-left: 28px; margin: 0;
+  }
+
+  /* ============ CONTACT PANEL (navy) ============ */
+  .contact { padding: 100px 0; }
+  .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 70px; }
+  @media (max-width: 800px) { .contact-grid { grid-template-columns: 1fr; gap: 44px; } }
+  .contact h2 { color: #F5F2EA; }
+  .contact .intro { color: var(--mist); max-width: 42ch; }
+  .contact-line { margin: 22px 0 0; font-weight: 600; color: #F5F2EA; }
+  .contact-line a { color: var(--gold-bright); text-decoration: none; }
+  .contact-line a:hover { text-decoration: underline; }
+
+  form { display: grid; gap: 18px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 520px) { .two { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 7px; }
+  label { font-size: 0.9rem; font-weight: 600; color: var(--mist); }
+  input, textarea {
+    font: inherit; color: var(--ink); background: #FDFCF9;
+    border: 1px solid var(--line-navy); border-radius: 8px; padding: 13px 15px; width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: #9AA5B5; }
+  textarea { min-height: 140px; resize: vertical; }
+  .form-note { font-size: 0.85rem; color: var(--mist); margin: 0; }
+  .sent { display: none; color: var(--gold-bright); font-weight: 600; margin: 0; }
+
+  footer.panel { border-top: 1px solid var(--line-navy); }
+  .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 26px; max-width: 1080px; margin: 0 auto; color: var(--mist); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <nav class="topbar" aria-label="Main">
+    <a class="brand" href="#top">MVP <i>Consultation</i></a>
+    <div class="topnav">
+      <a href="#road">How it works</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <div class="hero" id="top">
+    <div class="wrap">
+      <p class="hero-kicker">Pharmacy startup consulting</p>
+      <h1>From first license to first fill.</h1>
+      <p class="sub">We guide pharmacists and entrepreneurs through every step of opening an independent pharmacy — with advice that comes from owning and operating one, not just studying them.</p>
+      <div class="hero-links">
+        <a class="btn" href="#contact">Request a consultation</a>
+        <a class="quiet-link" href="#road">See how it works</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="road">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>The road to opening</h2>
+        <p>Starting a pharmacy touches licensing boards, insurers, regulators, and vendors all at once. We've been through each step firsthand — and we'll walk you through them in the right order.</p>
+      </div>
+      <div class="road">
+        <div class="step">
+          <span class="step-num">Step one</span>
+          <h3>Plan &amp; form the business</h3>
+          <p>Entity structure, business plans, financing preparation, and a realistic startup budget before you commit a dollar.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step two</span>
+          <h3>Licenses &amp; registrations</h3>
+          <p>State board applications, NPI and NCPDP setup, DEA registration — and multi-state expansion when you're ready.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step three</span>
+          <h3>Payer &amp; PBM credentialing</h3>
+          <p>Insurance network enrollment, PSAO selection, and understanding reimbursement before you open your doors.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step four</span>
+          <h3>Operations &amp; staffing</h3>
+          <p>Workflow design, pharmacy software selection, hiring, and the policies and procedures that keep you compliant.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step five</span>
+          <h3>Specialty &amp; niche services</h3>
+          <p>Building beyond retail — specialty pharmacy, compounding, and clinical service lines that set you apart.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Step six</span>
+          <h3>Marketing &amp; first prescribers</h3>
+          <p>Winning your first prescribers and patients, and growing script volume in a competitive market.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="band">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="copy">
+          <h2>Advice from behind the counter</h2>
+          <p>MVP Consultation was founded by a practicing pharmacist who has owned and operated an independent specialty pharmacy in New Jersey since 2017 — a community pharmacy that has been serving patients since 1979.</p>
+          <p>From board licensing and payer contracting to compounding, specialty accreditation, and multi-state expansion, we've built and run the operations most consultants only advise on — and we still run them every day.</p>
+          <p>Whether you're a pharmacist ready to own your own store or an entrepreneur entering the industry, we'll help you avoid the expensive mistakes and get open faster.</p>
+        </div>
+        <blockquote class="pull">The best advice about running a pharmacy comes from someone who still stands behind the counter.</blockquote>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="panel contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <h2>Get in touch</h2>
+        <p class="intro">Tell us where you are in the process — even if it's just an idea. We'll follow up to schedule an initial consultation.</p>
+        <p class="contact-line">Email: <a href="mailto:info@mvpconsultation.com">info@mvpconsultation.com</a></p>
+      </div>
+      <form id="contactForm">
+        <div class="two">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="message">How can we help?</label>
+          <textarea id="message" name="message" required placeholder="e.g., I'm a pharmacist in Texas looking to open my first independent pharmacy next year..."></textarea>
+        </div>
+        <div>
+          <button class="btn" type="submit">Send message</button>
+        </div>
+        <p class="form-note">Sending opens your email app with your message ready to go.</p>
+        <p class="sent" id="sentNote">Your email app should have opened with your message — just press send there.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="panel">
+  <div class="foot">
+    <span>MVP Consultation · New Jersey</span>
+    <span>Pharmacy startup consulting</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var message = document.getElementById('message').value.trim();
+    var subject = 'Consultation request from ' + name;
+    var body = 'Name: ' + name + '\nEmail: ' + email + (phone ? '\nPhone: ' + phone : '') + '\n\n' + message;
+    window.location.href = 'mailto:info@mvpconsultation.com?subject=' +
+      encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    document.getElementById('sentNote').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
