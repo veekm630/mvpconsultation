@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MVP Consulting — Your Pharmacy Starts Now</title>
+<meta name="description" content="Pharmacy startup consulting from a practicing independent pharmacy owner — licensing, payer credentialing, operations, and specialty. From first license to first fill.">
+<link rel="canonical" href="https://www.mvpconsulting.ai/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MVP Consulting — Pharmacy Startup Consulting">
+<meta property="og:description" content="Guidance from a practicing independent pharmacy owner — licensing, payer credentialing, operations, audits, and specialty pharmacy.">
+<meta property="og:url" content="https://www.mvpconsulting.ai/">
+<meta property="og:site_name" content="MVP Consulting">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"MVP Consulting","url":"https://www.mvpconsulting.ai/","email":"hello@mvpconsulting.ai","description":"Pharmacy startup consulting from a practicing independent pharmacy owner — licensing, payer and PBM credentialing, operations, audits, and specialty pharmacy.","areaServed":"US","address":{"@type":"PostalAddress","addressRegion":"NJ","addressCountry":"US"},"knowsAbout":["pharmacy licensing","PBM credentialing","pharmacy startup consulting","specialty pharmacy","pharmacy audits"]}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2314243E%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2240%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2232%22%20fill%3D%22%23F7F2E8%22%20text-anchor%3D%22middle%22%3EM%3C%2Ftext%3E%3Crect%20x%3D%2223%22%20y%3D%2247%22%20width%3D%2218%22%20height%3D%223%22%20rx%3D%221.5%22%20fill%3D%22%23B08D3F%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -339,10 +350,12 @@
       <div class="contact-card">
         <div>
           <h2>Get in touch.</h2>
-          <p class="intro">Tell us where you are in the process — even if it's just an idea. We'll follow up to schedule an initial consultation.</p>
+          <p class="intro">Tell us where you are in the process — even if it's just an idea. We'll follow up to schedule an initial consultation — free, and no obligation.</p>
           <p class="contact-line">Email: <a href="mailto:hello@mvpconsulting.ai">hello@mvpconsulting.ai</a></p>
         </div>
         <form id="contactForm">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="_subject" value="New consultation request — mvpconsulting.ai">
           <div class="two">
             <div class="field">
               <label for="name">Name</label>
@@ -362,11 +375,15 @@
             <textarea id="message" name="message" required placeholder="e.g., I'm a pharmacist in Texas looking to open my first independent pharmacy next year..."></textarea>
           </div>
           <div>
-            <button class="pill gold" type="submit">Send message</button>
+            <button class="pill gold" type="submit" id="sendBtn">Send message</button>
           </div>
-          <p class="form-note">Sending opens your email app with your message ready to go.</p>
-          <p class="sent" id="sentNote">Your email app should have opened with your message — just press send there.</p>
+          <p class="form-note">Your message goes straight to our inbox. We only use your details to respond to your inquiry.</p>
+          <p class="sent" id="fallbackNote">If your email app just opened, press send there — it reaches us the same way.</p>
         </form>
+        <div class="sent" id="sentNote">
+          <p style="margin:0 0 6px; font-size:1.3rem; font-family:'Instrument Serif',serif; color:#F7F2E8;">Thank you — your message is on its way.</p>
+          <p style="margin:0; font-weight:400; color:#B9C2D2;">We'll be in touch to schedule your consultation.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -387,17 +404,31 @@
 </footer>
 
 <script>
+  var FORM_ENDPOINT = 'https://formspree.io/f/xnpndlwj';
   document.getElementById('contactForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = document.getElementById('name').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var phone = document.getElementById('phone').value.trim();
-    var message = document.getElementById('message').value.trim();
-    var subject = 'Consultation request from ' + name;
-    var body = 'Name: ' + name + '\nEmail: ' + email + (phone ? '\nPhone: ' + phone : '') + '\n\n' + message;
-    window.location.href = 'mailto:hello@mvpconsulting.ai?subject=' +
-      encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    document.getElementById('sentNote').style.display = 'block';
+    var form = e.target;
+    var btn = document.getElementById('sendBtn');
+    var original = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending\u2026';
+    var data = new FormData(form);
+    fetch(FORM_ENDPOINT, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+      .then(function (res) {
+        if (!res.ok) { throw new Error('submit failed'); }
+        form.style.display = 'none';
+        document.getElementById('sentNote').style.display = 'block';
+        /* Google Ads conversion tracking: fire the gtag conversion event here once Ads is set up */
+      })
+      .catch(function () {
+        /* Fallback: open the visitor's email app so the lead isn't lost */
+        var name = (data.get('name') || '').toString();
+        var body = 'Name: ' + name + '\nEmail: ' + (data.get('email') || '') +
+          (data.get('phone') ? '\nPhone: ' + data.get('phone') : '') + '\n\n' + (data.get('message') || '');
+        window.location.href = 'mailto:hello@mvpconsulting.ai?subject=' +
+          encodeURIComponent('Consultation request from ' + name) + '&body=' + encodeURIComponent(body);
+        document.getElementById('fallbackNote').style.display = 'block';
+      })
+      .then(function () { btn.disabled = false; btn.textContent = original; });
   });
 </script>
 
