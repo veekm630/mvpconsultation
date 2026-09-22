@@ -414,9 +414,8 @@
     fetch(FORM_ENDPOINT, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
       .then(function (res) {
         if (!res.ok) { throw new Error('submit failed'); }
-        form.style.display = 'none';
-        document.getElementById('sentNote').style.display = 'block';
-        /* Google Ads conversion tracking: fire the gtag conversion event here once Ads is set up */
+        /* Redirect to the confirmation page — Google Ads counts this page view as the conversion */
+        window.location.href = '/thanks.html';
       })
       .catch(function () {
         /* Fallback: open the visitor's email app so the lead isn't lost */
